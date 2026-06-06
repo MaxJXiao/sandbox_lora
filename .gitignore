@@ -1,1 +1,6 @@
-data/\n__pycache__/\n*.pyc\n.venv/
+data/
+__pycache__/
+*.pyc
+.venv/
+datasets/
+trial_dataset/
