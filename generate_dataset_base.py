@@ -54,17 +54,19 @@ _DIGIT_SYMBOLS = "0123456789ABCDEF"
 assert len(_DIGIT_SYMBOLS) == 16
 
 
-def int_to_base(n: int, base: int, width: int) -> str:
-    """Non-negative int → zero-padded digit string in `base`."""
+def int_to_base(n: int, base: int, width: int = 1) -> str:
+    """Non-negative int → minimal-width digit string in `base` (human style, no leading zeros).
+
+    `width` is retained for call-site compatibility / easy revert to fixed-width,
+    but no longer pads — values are still reduced mod base**width upstream in `_mod`.
+    """
     assert 2 <= base <= 16
     if n == 0:
-        return _DIGIT_SYMBOLS[0] * width
+        return _DIGIT_SYMBOLS[0]
     digits = []
     while n > 0:
         digits.append(_DIGIT_SYMBOLS[n % base])
         n //= base
-    while len(digits) < width:
-        digits.append(_DIGIT_SYMBOLS[0])
     return "".join(reversed(digits))
 
 
